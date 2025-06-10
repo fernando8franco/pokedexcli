@@ -27,7 +27,7 @@ func getMaps(back bool) (config, error) {
 		url = URLNext
 	} else {
 		if URLPrevious == nil {
-			return config{}, errors.New("Bad Request")
+			return config{}, errors.New("bad request")
 		}
 
 		url = *URLPrevious
