@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 )
@@ -25,7 +26,10 @@ func startRepl() {
 			continue
 		}
 
-		cmd.callback()
+		err := cmd.callback()
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 }
 
