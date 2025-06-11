@@ -6,9 +6,23 @@ import (
 	"log"
 	"os"
 	"strings"
+
+	"github.com/fernando8franco/pokedexcli/pokeapi"
 )
 
-func startRepl() {
+type cliCommand struct {
+	name        string
+	description string
+	callback    func(*config) error
+}
+
+type config struct {
+	pokeapiClient pokeapi.Client
+	Next          *string
+	Previous      *string
+}
+
+func startRepl(cfg *config) {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
@@ -20,16 +34,41 @@ func startRepl() {
 			continue
 		}
 
-		cmd, exist := commands[words[0]]
+		cmd, exist := getCommands()[words[0]]
 		if !exist {
 			fmt.Println("Unknown command")
 			continue
 		}
 
-		err := cmd.callback()
+		err := cmd.callback(cfg)
 		if err != nil {
 			log.Fatal(err)
 		}
+	}
+}
+
+func getCommands() map[string]cliCommand {
+	return map[string]cliCommand{
+		"help": {
+			name:        "help",
+			description: "Displays a help message",
+			callback:    commandHelp,
+		},
+		"exit": {
+			name:        "exit",
+			description: "Exit the Pokedex",
+			callback:    commandExit,
+		},
+		"map": {
+			name:        "map",
+			description: "Displays the locations that can be visited within the games",
+			callback:    commandMapNext,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Displays the previous locations that can be visited within the games",
+			callback:    commandMapPrevious,
+		},
 	}
 }
 
