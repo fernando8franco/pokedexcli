@@ -9,3 +9,11 @@ type Locations struct {
 		URL  string `json:"url"`
 	} `json:"results"`
 }
+
+type PokemonsByLocation struct {
+	PokemonEncounters []struct {
+		Pokemon struct {
+			Name string `json:"name"`
+		} `json:"pokemon"`
+	} `json:"pokemon_encounters"`
+}
