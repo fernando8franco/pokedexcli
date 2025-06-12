@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func commandMapNext(cfg *config) error {
 	url := cfg.Next
