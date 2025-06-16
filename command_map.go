@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func commandMapNext(cfg *config) error {
+func commandMapNext(cfg *config, args ...string) error {
 	url := cfg.Next
 
 	locations, err := cfg.pokeapiClient.ListLocations(url)
@@ -22,7 +22,7 @@ func commandMapNext(cfg *config) error {
 	return nil
 }
 
-func commandMapPrevious(cfg *config) error {
+func commandMapPrevious(cfg *config, args ...string) error {
 	url := cfg.Previous
 
 	locations, err := cfg.pokeapiClient.ListLocations(url)

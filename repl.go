@@ -13,14 +13,13 @@ import (
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, ...string) error
 }
 
 type config struct {
 	pokeapiClient pokeapi.Client
 	Next          *string
 	Previous      *string
-	Params        []string
 }
 
 func startRepl(cfg *config) {
@@ -40,9 +39,13 @@ func startRepl(cfg *config) {
 			fmt.Println("Unknown command")
 			continue
 		}
-		cfg.Params = words[1:]
 
-		err := cmd.callback(cfg)
+		args := []string{}
+		if len(words) > 1 {
+			args = words[1:]
+		}
+
+		err := cmd.callback(cfg, args...)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -72,7 +75,7 @@ func getCommands() map[string]cliCommand {
 			callback:    commandMapPrevious,
 		},
 		"explore": {
-			name:        "explore",
+			name:        "explore <location_name>",
 			description: "Displays the pokemons that can be encountered in that location area",
 			callback:    commandExplore,
 		},
