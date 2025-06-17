@@ -9,7 +9,15 @@ type Pokemon struct {
 	IsDefault      bool   `json:"is_default"`
 	Order          int    `json:"order"`
 	Types          []struct {
-		Name string `json:"name"`
-		URL  string `json:"url"`
+		Type struct {
+			Name string `json:"name"`
+		}
 	} `json:"types"`
+	Stats []struct {
+		BaseStat int `json:"base_stat"`
+		Effort   int `json:"effort"`
+		Stat     struct {
+			Name string `json:"name"`
+		} `json:"stat"`
+	} `json:"stats"`
 }
